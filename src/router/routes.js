@@ -48,7 +48,7 @@ const router = createRouter({
       component: ProductList,
     },
     {
-      path: '/product-upsert',
+      path: '/product-create',
       name: APP_ROUTE_NAMES.PRODUCT_UPSERT,
       component: ProductUpsert,
     },

@@ -35,8 +35,8 @@
             <router-link
               class="nav-link active"
               aria-current="page"
-              :to="{ name: APP_ROUTE_NAMES.PRODUCT_LIST }"
-              >Product</router-link
+              :to="{ name: APP_ROUTE_NAMES.PRODUCT_UPSERT }"
+              >Add Product</router-link
             >
           </li>
         </ul>
