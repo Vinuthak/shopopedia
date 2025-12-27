@@ -1,21 +1,56 @@
+import { APP_ROUTE_NAMES } from '@/constants/routeNames'
+import AccessDenied from '@/views/auth/AccessDenied.vue'
+import NotFound from '@/views/auth/NotFound.vue'
+import Signin from '@/views/auth/Signin.vue'
+import SignUp from '@/views/auth/SignUp.vue'
+import ContactUs from '@/views/home/ContactUs.vue'
+import Home from '@/views/home/Home.vue'
+import ProductList from '@/views/product/ProductList.vue'
+import ProductUpsert from '@/views/product/ProductUpsert.vue'
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: '/',
-      name: 'home',
-      component: HomeView,
+      name: APP_ROUTE_NAMES.HOME,
+      component: Home,
     },
     {
-      path: '/about',
-      name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import('../views/AboutView.vue'),
+      path: '/sign-up',
+      name: APP_ROUTE_NAMES.SIGN_UP,
+      component: SignUp,
+    },
+    {
+      path: '/sign-in',
+      name: APP_ROUTE_NAMES.SIGN_IN,
+      component: Signin,
+    },
+    {
+      path: '/access-denied',
+      name: APP_ROUTE_NAMES.ACCESSDENIED,
+      component: AccessDenied,
+    },
+    {
+      path: '/not-found',
+      name: APP_ROUTE_NAMES.NOT_FOUND,
+      component: NotFound,
+    },
+    {
+      path: '/contact-us',
+      name: APP_ROUTE_NAMES.CONTACT_US,
+      component: ContactUs,
+    },
+    {
+      path: '/product-list',
+      name: APP_ROUTE_NAMES.PRODUCT_LIST,
+      component: ProductList,
+    },
+    {
+      path: '/product-upsert',
+      name: APP_ROUTE_NAMES.PRODUCT_UPSERT,
+      component: ProductUpsert,
     },
   ],
 })
