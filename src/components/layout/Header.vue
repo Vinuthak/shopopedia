@@ -1,7 +1,7 @@
 <template>
   <nav class="navbar navbar-expand-lg bg-body-tertiary">
     <div class="container-fluid">
-      <a class="navbar-brand" href="#">Navbar</a>
+      <img src="../../assets/logo.png" style="width: 40px" class="mx-3" alt="ShopOPedia" />
       <button
         class="navbar-toggler"
         type="button"
@@ -16,11 +16,32 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="#">Home</a>
+            <router-link
+              class="nav-link active"
+              aria-current="page"
+              :to="{ name: APP_ROUTE_NAMES.HOME }"
+              >Home</router-link
+            >
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Link</a>
+            <router-link
+              class="nav-link active"
+              aria-current="page"
+              :to="{ name: APP_ROUTE_NAMES.PRODUCT_LIST }"
+              >Product</router-link
+            >
           </li>
+          <li class="nav-item">
+            <router-link
+              class="nav-link active"
+              aria-current="page"
+              :to="{ name: APP_ROUTE_NAMES.PRODUCT_LIST }"
+              >Product</router-link
+            >
+          </li>
+        </ul>
+
+        <ul class="d-flex navbar-nav">
           <li class="nav-item dropdown">
             <a
               class="nav-link dropdown-toggle"
@@ -29,24 +50,46 @@
               data-bs-toggle="dropdown"
               aria-expanded="false"
             >
+              <i class="bi bi-laptop"></i>
               Dropdown
             </a>
             <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="#">Action</a></li>
-              <li><a class="dropdown-item" href="#">Another action</a></li>
+              <li>
+                <a class="dropdown-item" href="#"><i class="bi bi-sun"></i> &nbsp;Light</a>
+              </li>
+              <li>
+                <a class="dropdown-item" href="#"
+                  ><i class="bi bi-moon-stars-fill"></i> &nbsp;Dark</a
+                >
+              </li>
               <li><hr class="dropdown-divider" /></li>
-              <li><a class="dropdown-item" href="#">Something else here</a></li>
             </ul>
           </li>
           <li class="nav-item">
-            <a class="nav-link disabled" aria-disabled="true">Disabled</a>
+            <router-link
+              class="nav-link active"
+              aria-current="page"
+              :to="{ name: APP_ROUTE_NAMES.SIGN_IN }"
+              >Sign In</router-link
+            >
+          </li>
+          <li class="nav-item">
+            <router-link
+              class="nav-link active"
+              aria-current="page"
+              :to="{ name: APP_ROUTE_NAMES.SIGN_UP }"
+              >Sign Up</router-link
+            >
           </li>
         </ul>
-        <form class="d-flex" role="search">
-          <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" />
-          <button class="btn btn-outline-success" type="submit">Search</button>
-        </form>
       </div>
     </div>
   </nav>
 </template>
+
+<script setup>
+import { APP_ROUTE_NAMES } from '@/constants/routeNames'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+</script>
