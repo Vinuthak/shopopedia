@@ -82,10 +82,12 @@
 </template>
 
 <script setup>
-import { ref, reactive } from 'vue'
+import { ref, reactive, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { PRODUCT_CATEGORIES } from '@/constants/appConstants.js'
+import { useSwal } from '@/utility/useSwal'
 
+const { showSuccess, showAlert, showConfirm, showError } = useSwal()
 const route = useRoute()
 const loading = ref(false)
 const errorList = reactive([])
@@ -99,7 +101,11 @@ const productObj = reactive({
   category: '',
   image: '',
 })
-
+// onMounted(() => {
+// showSuccess('Product created successfully')
+//   showError('Product creation failed')
+//   showConfirm('Are you sure?')
+// })
 async function handleOnSubmit() {
   try {
     loading.value = true
@@ -124,10 +130,11 @@ async function handleOnSubmit() {
         bestseller: Boolean(productObj.isBestSeller),
       }
       await new Promise((resolve) => setTimeout(resolve, 2000))
+      showSuccess('Product created successfully')
       console.log(productData)
     }
   } catch (e) {
-    console.log(productObj)
+    console.log(e)
   } finally {
     loading.value = false
   }
