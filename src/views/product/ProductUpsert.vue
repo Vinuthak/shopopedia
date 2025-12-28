@@ -86,6 +86,7 @@ import { ref, reactive, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { PRODUCT_CATEGORIES } from '@/constants/appConstants.js'
 import { useSwal } from '@/utility/useSwal'
+import productService from '@/services/productService'
 
 const { showSuccess, showAlert, showConfirm, showError } = useSwal()
 const route = useRoute()
@@ -129,7 +130,7 @@ async function handleOnSubmit() {
         tags: productObj.tags.length > 0 ? productObj.tags.split(',').map((tag) => tag.trim()) : [],
         bestseller: Boolean(productObj.isBestSeller),
       }
-      await new Promise((resolve) => setTimeout(resolve, 2000))
+      await productService.createProduct(productData)
       showSuccess('Product created successfully')
       console.log(productData)
     }
@@ -138,5 +139,6 @@ async function handleOnSubmit() {
   } finally {
     loading.value = false
   }
+  console.log(productObj)
 }
 </script>
