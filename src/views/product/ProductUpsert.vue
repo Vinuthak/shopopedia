@@ -5,10 +5,10 @@
         <form @submit.prevent="handleOnSubmit">
           <div class="h2 text-center text-success">Create Product</div>
           <hr />
-          <div class="alert alert-danger pb-0">
+          <div v-if="errorList.length > 0" class="alert alert-danger pb-0">
             Please fix the following errors:
             <ul>
-              <li>Error List</li>
+              <li v-for="error in errorList" :key="error">{{ error }}</li>
             </ul>
           </div>
 
@@ -61,7 +61,7 @@
           </div>
           <div class="pt-3">
             <button class="btn btn-success m-2 w-25">
-              <span class="spinner-border spinner-border-sm me-2"></span>Submit
+              <span v-if="loading" class="spinner-border spinner-border-sm me-2"></span>Submit
             </button>
             <a href="/" class="btn btn-secondary m-2 w-25"> Cancel </a>
           </div>
@@ -85,6 +85,7 @@ import { useRoute, useRouter } from 'vue-router'
 
 const route = useRoute()
 const loading = ref(false)
+const errorList = reactive([])
 const productObj = reactive({
   name: '',
   description: '',
@@ -96,7 +97,36 @@ const productObj = reactive({
   image: '',
 })
 
-function handleOnSubmit() {
-  console.log(productObj)
+async function handleOnSubmit() {
+  try {
+    loading.value = true
+    errorList.length = 0 //clear it
+    //validations
+    if (productObj.name.length < 3) {
+      errorList.push('Name should be atleast 3 charectes long')
+    }
+    if (productObj.price <= 0) {
+      errorList.push('Price should be grater than 0')
+    }
+    if (productObj.category === '') {
+      errorList.push('Please select a category')
+    }
+
+    if (!errorList.length) {
+      const productData = {
+        ...productObj,
+        price: Number(productObj.price),
+        salePrice: productObj.salePrice ? Number(productObj.salePrice) : null,
+        tags: productObj.tags.split(',').map((tag) => tag.trim()),
+        bestseller: Boolean(productObj.isBestSeller),
+      }
+      await new Promise((resolve) => setTimeout(resolve, 2000))
+      console.log(productData)
+    }
+  } catch (e) {
+    console.log(productObj)
+  } finally {
+    loading.value = false
+  }
 }
 </script>
