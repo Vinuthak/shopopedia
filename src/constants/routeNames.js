@@ -8,4 +8,5 @@ export const APP_ROUTE_NAMES = Object.freeze({
   HOME: 'home',
   PRODUCT_LIST: 'product_list',
   PRODUCT_UPSERT: 'product_upsert',
+  PRODUCT_UPDATE: 'product-update',
 })

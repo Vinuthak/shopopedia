@@ -31,8 +31,8 @@ export default {
   },
   async updateProduct(id, productData) {
     const docRef = doc(db, 'products', id)
-    const snapshot = await updateDoc(docRef, productData)
-    return { id: snapshot.id, ...snapshot.productData }
+    await updateDoc(docRef, productData)
+    return { id, ...productData }
   },
   async deleteProduct(id) {
     const docRef = doc(db, 'products', id)
