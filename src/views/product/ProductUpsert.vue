@@ -2,7 +2,7 @@
   <div class="container">
     <div class="row border p-4 my-5 rounded">
       <div class="col-9">
-        <form>
+        <form @submit.prevent="handleOnSubmit">
           <div class="h2 text-center text-success">Create Product</div>
           <hr />
           <div class="alert alert-danger pb-0">
@@ -14,28 +14,37 @@
 
           <div class="mt-3">
             <span class="text-muted">Name</span>
-            <input type="text" class="form-control" />
+            <input type="text" v-model.trim="productObj.name" class="form-control" />
           </div>
           <div class="mt-3">
             <span class="text-muted">Description</span>
-            <textarea type="text" class="form-control"></textarea>
+            <textarea type="text" v-model="productObj.description" class="form-control"></textarea>
           </div>
           <div class="mt-3">
             <span class="text-muted">Price</span>
-            <input type="number" class="form-control" />
+            <input type="number" v-model.number="productObj.price" class="form-control" />
           </div>
 
           <div class="mt-3">
             <span class="text-muted">Sale Price</span>
-            <input type="number" class="form-control" />
+            <input type="number" v-model.number="productObj.salePrice" class="form-control" />
           </div>
           <div class="mt-3">
             <span class="text-muted">Tags (comma-seperated)</span>
-            <input type="text" class="form-control" placeholder="e.g., modern, classic, luxury" />
+            <input
+              type="text"
+              v-model="productObj.tags"
+              class="form-control"
+              placeholder="e.g., modern, classic, luxury"
+            />
           </div>
           <div class="form-check form-switch pt-3">
-            <input class="form-check-input" type="checkbox" role="switch" />
-
+            <input
+              class="form-check-input"
+              v-model="productObj.isBestSeller"
+              type="checkbox"
+              role="switch"
+            />
             <label class="form-check-label" for="bestseller"> Bestseller </label>
           </div>
           <div class="mt-3">
@@ -69,3 +78,25 @@
     </div>
   </div>
 </template>
+
+<script setup>
+import { ref, reactive } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+
+const route = useRoute()
+const loading = ref(false)
+const productObj = reactive({
+  name: '',
+  description: '',
+  price: 0,
+  salePrice: 0,
+  tags: [],
+  isBestSeller: false,
+  category: '',
+  image: '',
+})
+
+function handleOnSubmit() {
+  console.log(productObj)
+}
+</script>
