@@ -18,4 +18,8 @@ export default {
     const docRef = await addDoc(productCollection, productData)
     return { id: docRef.id, ...productData }
   },
+  async getProducts() {
+    const snapShot = await getDocs(productCollection)
+    return snapShot.docs.map((doc) => ({ id: doc.id, ...doc.data() }))
+  },
 }
