@@ -1,6 +1,11 @@
 <template>
   <div class="container py-4">
-    <div class="border rounded pb-3 px-2">
+    <div v-if="loading" class="d-flex justify-content-center align-items-center vh-100">
+      <div class="spinner-grow text-secondary">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
+    <div class="border rounded pb-3 px-2" v-else>
       <div
         class="card-header d-flex flex-column flex-md-row justify-content-between align-items-md-center p-4"
       >
@@ -85,7 +90,10 @@
                     <i class="bi bi-pencil-fill"></i> Edit
                   </button>
 
-                  <button class="btn btn-sm btn-outline-danger">
+                  <button
+                    class="btn btn-sm btn-outline-danger"
+                    @click="handleProductDelete(product.id)"
+                  >
                     <i class="bi bi-trash3-fill"></i> Delete
                   </button>
                 </td>
@@ -100,6 +108,8 @@
 <script setup>
 import { onMounted, ref } from 'vue'
 import productService from '@/services/productService'
+import { useSwal } from '@/utility/useSwal'
+const { showSuccess, showConfirm, showError } = useSwal()
 
 const products = ref([])
 const loading = ref(false)
@@ -111,9 +121,25 @@ onMounted(() => {
 const fetchProducts = async () => {
   try {
     loading.value = true
+    await new Promise((resolve) => setTimeout(resolve, 1000))
     products.value = await productService.getProducts()
   } catch (e) {
     console.log('error is ' + e)
+  } finally {
+    loading.value = false
+  }
+}
+const handleProductDelete = async (productId) => {
+  try {
+    loading.value = true
+    const confirmResult = await showConfirm('Are you sure you want to delete this product?')
+    if (confirmResult.isConfirmed) {
+      await productService.deleteProduct(productId)
+      await showSuccess('Product deleted successfully')
+      fetchProducts()
+    }
+  } catch (err) {
+    console.log(err)
   } finally {
     loading.value = false
   }

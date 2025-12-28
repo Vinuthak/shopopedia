@@ -22,4 +22,20 @@ export default {
     const snapShot = await getDocs(productCollection)
     return snapShot.docs.map((doc) => ({ id: doc.id, ...doc.data() }))
   },
+
+  //retrieves single productId using doc()
+  async getProductById(id) {
+    const docRef = doc(db, 'products', id)
+    const snapshot = await getDoc(docRef)
+    return { id: snapshot.id, ...snapshot.data() }
+  },
+  async updateProduct(id, productData) {
+    const docRef = doc(db, 'products', id)
+    const snapshot = await updateDoc(docRef, productData)
+    return { id: snapshot.id, ...snapshot.productData }
+  },
+  async deleteProduct(id) {
+    const docRef = doc(db, 'products', id)
+    await deleteDoc(docRef)
+  },
 }
