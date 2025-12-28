@@ -87,9 +87,10 @@ import { useRoute, useRouter } from 'vue-router'
 import { PRODUCT_CATEGORIES } from '@/constants/appConstants.js'
 import { useSwal } from '@/utility/useSwal'
 import productService from '@/services/productService'
+import { APP_ROUTE_NAMES } from '@/constants/routeNames'
 
 const { showSuccess, showAlert, showConfirm, showError } = useSwal()
-const route = useRoute()
+const router = useRouter()
 const loading = ref(false)
 const errorList = reactive([])
 const productObj = reactive({
@@ -132,6 +133,7 @@ async function handleOnSubmit() {
       }
       await productService.createProduct(productData)
       showSuccess('Product created successfully')
+      router.push({ name: APP_ROUTE_NAMES.PRODUCT_LIST })
       console.log(productData)
     }
   } catch (e) {
