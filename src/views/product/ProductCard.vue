@@ -21,10 +21,15 @@
         <div class="d-flex justify-content-between align-items-center mb-3">
           <div class="fw-bold me-2 fs-5 text-muted">
             <span>
-              <span class="text-decoration-line-through"> ${{ product.price }} </span>
-              <span class="text-danger px-1"> {{ product.salePrice }}</span>
+              <span
+                class="text-success"
+                :style="{ textDecoration: product.salePrice ? 'line-through' : 'none' }"
+              >
+                $
+                {{ product.price }}/sqft
+              </span>
+              <span class="text-danger px-2" v-if="product.salePrice"> SALE!</span>
             </span>
-            <span> $$ /sqft </span>
           </div>
           <button class="btn btn-success fs-6 py-2 px-4 btn-sm" data-bs-toggle="modal">
             <i class="bi bi-card-list"></i> View Details

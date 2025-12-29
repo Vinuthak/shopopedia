@@ -92,7 +92,6 @@ const fetchProducts = async () => {
     loading.value = true
     await new Promise((resolve) => setTimeout(resolve, 1000))
     products.value = await productService.getProducts()
-    console.log(products.value)
   } catch (e) {
     console.log('error is ' + e)
   } finally {
