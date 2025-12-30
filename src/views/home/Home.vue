@@ -21,6 +21,7 @@
             </h1>
             <div class="input-group mt-3 mx-auto shadow-lg rounded-4" style="max-width: 700px">
               <input
+                v-model="searchValue"
                 type="text"
                 class="form-control border-0 py-3 px-4 fs-5"
                 placeholder="Search your favorite product..."
@@ -99,6 +100,7 @@ const products = ref([])
 const loading = ref(false)
 const selectedCategory = ref('All')
 const categoryList = ref(['All', ...PRODUCT_CATEGORIES])
+const searchValue = ref('')
 
 onMounted(() => {
   fetchProducts()
@@ -123,6 +125,12 @@ const filteredProductList = computed(() => {
       : products.value.filter(
           (item) => item.category.toUpperCase() === selectedCategory.value.toUpperCase(),
         )
+
+  if (searchValue.value) {
+    tempArray = tempArray.filter((item) => {
+      return item.name.toUpperCase().includes(searchValue.value.toUpperCase())
+    })
+  }
   return tempArray
 })
 </script>
