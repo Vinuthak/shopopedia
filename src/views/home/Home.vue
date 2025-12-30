@@ -38,6 +38,7 @@
         <div class="col-md-auto">
           <div class="d-flex flex-wrap gap-3">
             <button
+              v-on:click="selectedCategory = category"
               v-for="(category, index) in categoryList"
               :key="index"
               class="btn px-4 py-2"
@@ -73,20 +74,23 @@
       </div>
 
       <div>
-        <div class="row g-4">
+        <div v-if="filteredProductList.length > 0" class="row g-4 pb-4">
           <!-- providing :product='product' as props to child component -->
           <ProductCard
-            v-for="product in products"
+            v-for="product in filteredProductList"
             :key="product.id"
             :product="product"
           ></ProductCard>
+        </div>
+        <div v-else>
+          <h3 class="text-center">No products found</h3>
         </div>
       </div>
     </div>
   </div>
 </template>
 <script setup>
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, computed } from 'vue'
 import productService from '@/services/productService'
 import ProductCard from '../product/ProductCard.vue'
 import { PRODUCT_CATEGORIES } from '@/constants/appConstants'
@@ -111,4 +115,14 @@ const fetchProducts = async () => {
     loading.value = false
   }
 }
+
+const filteredProductList = computed(() => {
+  let tempArray =
+    selectedCategory.value === 'All'
+      ? [...products.value]
+      : products.value.filter(
+          (item) => item.category.toUpperCase() === selectedCategory.value.toUpperCase(),
+        )
+  return tempArray
+})
 </script>
