@@ -21,7 +21,10 @@
                 />
               </div>
               <button :disabled="authStore.isLoading" type="submit" class="btn btn-success w-100">
-                <span v-if="authStore.loading" class="spinner-border spinner-border-sm me-2"></span>
+                <span
+                  v-if="authStore.isLoading"
+                  class="spinner-border spinner-border-sm me-2"
+                ></span>
                 Create Account
               </button>
               <div v-if="error" class="alert alert-danger mt-3 mb-0">{{ error }}</div>
@@ -54,7 +57,6 @@ const { showSuccess, showError } = useSwal()
 const authStore = useAuthStore()
 
 const handleSignup = async () => {
-  console.log('submitting')
   try {
     error.value = ''
     console.log(form)
@@ -62,7 +64,7 @@ const handleSignup = async () => {
     showSuccess('Account created successfully!')
   } catch (err) {
     error.value = err.message
-    showError(error.value)
+    showError(err.message)
   }
 }
 </script>

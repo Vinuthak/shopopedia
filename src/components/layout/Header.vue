@@ -67,7 +67,7 @@
               <li><hr class="dropdown-divider" /></li>
             </ul>
           </li>
-          <li class="nav-item">
+          <li class="nav-item" v-if="!authStore.isAuthenticated">
             <router-link
               class="nav-link active"
               aria-current="page"
@@ -75,7 +75,7 @@
               >Sign In</router-link
             >
           </li>
-          <li class="nav-item">
+          <li class="nav-item" v-if="!authStore.isAuthenticated">
             <router-link
               class="nav-link active"
               aria-current="page"
@@ -83,6 +83,8 @@
               >Sign Up</router-link
             >
           </li>
+          <li class="nav-item" v-if="authStore.isAuthenticated"></li>
+          <button class="nav-link">Sign Out</button>
         </ul>
       </div>
     </div>
@@ -93,6 +95,8 @@
 import { APP_ROUTE_NAMES } from '@/constants/routeNames'
 import { useThemeStore } from '@/stores/themeStore'
 import { useRouter } from 'vue-router'
+import { useAuthStore } from '@/stores/authStore'
 const router = useRouter()
 const themeStore = useThemeStore()
+const authStore = useAuthStore()
 </script>

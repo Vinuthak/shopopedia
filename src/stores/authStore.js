@@ -3,12 +3,16 @@ import { db, auth } from '@/utility/firebaseConfig'
 import { setDoc, doc } from 'firebase/firestore'
 import { computed, ref } from 'vue'
 import { ROLE_ADMIN, ROLE_USER } from '@/constants/appConstants'
-import { createUserWithEmailAndPassword } from 'firebase/auth'
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth'
 
 export const useAuthStore = defineStore('authStore', () => {
   const user = ref(null)
   const error = ref(null)
   const isLoading = ref(false)
+  const role = ref(null)
+
+  const isAuthenticated = computed(() => user.value !== null)
+  const isAdmin = computed(() => role.value === ROLE_ADMIN)
 
   const signUpUser = async (email, password) => {
     isLoading.value = true
@@ -19,6 +23,24 @@ export const useAuthStore = defineStore('authStore', () => {
         role: ROLE_USER,
         createAt: new Date(),
       })
+      clearUser()
+      error.value = null
+    } catch (err) {
+      error.value = err.message
+      throw err
+    } finally {
+      isLoading.value = false
+    }
+  }
+
+  const clearUser = () => {
+    user.value = null
+    role.value = null
+  }
+  const signInUser = async (email, password) => {
+    isLoading.value = true
+    try {
+      const userCredentials = await signInWithEmailAndPassword(auth, email, password)
       user.value = userCredentials.user
       user.role = ROLE_USER
       error.value = null
@@ -30,5 +52,19 @@ export const useAuthStore = defineStore('authStore', () => {
     }
   }
 
-  return { user, error, isLoading, signUpUser }
+  return {
+    // state
+    user,
+    error,
+    role,
+    isLoading,
+
+    // getters
+    isAdmin,
+    isAuthenticated,
+
+    // actions
+    signUpUser,
+    signInUser,
+  }
 })

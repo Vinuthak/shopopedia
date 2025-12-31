@@ -21,7 +21,10 @@
                 />
               </div>
               <button :disabled="authStore.isLoading" type="submit" class="btn btn-success w-100">
-                <span v-if="authStore.loading" class="spinner-border spinner-border-sm me-2"></span>
+                <span
+                  v-if="authStore.isLoading"
+                  class="spinner-border spinner-border-sm me-2"
+                ></span>
                 Sign In
               </button>
               <div v-if="error" class="alert alert-danger mt-3 mb-0">{{ error }}</div>
@@ -56,6 +59,7 @@ const form = reactive({
 const handleSignIn = async () => {
   try {
     error.value = ''
+    await authStore.signInUser(form.email, form.password)
     router.push({ name: APP_ROUTE_NAMES.HOME }) //redirecting within the function to another page like "name = 'home' in template"
   } catch (err) {
     error.value = err.message
