@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { db, auth } from '@/utility/firebaseConfig'
-import { setDoc, doc } from 'firebase/firestore'
+import { setDoc, doc, getDoc } from 'firebase/firestore'
 import { computed, ref } from 'vue'
 import { ROLE_ADMIN, ROLE_USER } from '@/constants/appConstants'
 import {
@@ -25,6 +25,7 @@ export const useAuthStore = defineStore('authStore', () => {
     onAuthStateChanged(auth, async (firebaseUser) => {
       if (firebaseUser) {
         user.value = firebaseUser
+        await fetchUserRole(firebaseUser.uid)
         initialized.value = true
       } else {
         clearUser()
@@ -60,7 +61,6 @@ export const useAuthStore = defineStore('authStore', () => {
     try {
       const userCredentials = await signInWithEmailAndPassword(auth, email, password)
       user.value = userCredentials.user
-      user.role = ROLE_USER
       error.value = null
     } catch (err) {
       error.value = err.message
@@ -82,6 +82,11 @@ export const useAuthStore = defineStore('authStore', () => {
     } finally {
       isLoading.value = false
     }
+  }
+
+  const fetchUserRole = async (uid) => {
+    const userDoc = await getDoc(doc(db, 'users', uid))
+    role.value = userDoc.exists ? userDoc.data().role : ''
   }
 
   return {
