@@ -8,6 +8,7 @@ import Home from '@/views/home/Home.vue'
 import ProductList from '@/views/product/ProductList.vue'
 import ProductUpsert from '@/views/product/ProductUpsert.vue'
 import { createRouter, createWebHistory } from 'vue-router'
+import { useAuthStore } from '@/stores/authStore'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -58,6 +59,14 @@ const router = createRouter({
       component: ProductUpsert,
     },
   ],
+})
+
+router.beforeEach(async (toString, from) => {
+  const authStore = useAuthStore()
+
+  if (!authStore.initialized) {
+    await authStore.initializeAuth()
+  }
 })
 
 export default router

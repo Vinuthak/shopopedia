@@ -90,6 +90,7 @@ export const useAuthStore = defineStore('authStore', () => {
     error,
     role,
     isLoading,
+    initialized,
 
     // getters
     isAdmin,
