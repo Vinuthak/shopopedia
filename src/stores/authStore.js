@@ -21,15 +21,17 @@ export const useAuthStore = defineStore('authStore', () => {
 
   const initializeAuth = async () => {
     console.log('initialize auth')
-
-    onAuthStateChanged(auth, async (firebaseUser) => {
-      if (firebaseUser) {
-        user.value = firebaseUser
-        await fetchUserRole(firebaseUser.uid)
-        initialized.value = true
-      } else {
-        clearUser()
-      }
+    return new Promise((resolve) => {
+      onAuthStateChanged(auth, async (firebaseUser) => {
+        if (firebaseUser) {
+          user.value = firebaseUser
+          await fetchUserRole(firebaseUser.uid)
+          initialized.value = true
+        } else {
+          clearUser()
+        }
+        resolve()
+      })
     })
   }
 
