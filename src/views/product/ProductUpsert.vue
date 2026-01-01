@@ -101,7 +101,7 @@
 import { ref, reactive, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { PRODUCT_CATEGORIES } from '@/constants/appConstants.js'
-import { useSwal } from '@/utility/useSwal'
+import { useSwal } from '@/assets/compossibles/useSwal'
 import productService from '@/services/productService'
 import { APP_ROUTE_NAMES } from '@/constants/routeNames'
 import { uploadToCloudinary } from '@/utility/cloudinary'
@@ -128,6 +128,8 @@ onMounted(async () => {
   loading.value = true
   try {
     const product = await productService.getProductById(productIdForUpdate)
+    console.log(product.tags)
+    console.log(product)
     Object.assign(productObj, { ...product, tags: product.tags.join(',') })
   } catch (err) {
     console.log(err)
